@@ -30,9 +30,6 @@ public abstract class EndPoint {
         //creating a channel
         channel = connection.createChannel();
 
-        //declaring a exchange for this channel
-        channel.exchangeDeclare("logs", "fanout");
-
         //declaring a queue for this channel. If queue does not exist,
         //it will be created on the server.
         boolean durable = true; // 队列持久性 （注：RabbitMQ不允许重新定义具有不同参数的现有队列，因此需要换QUEUE_NAME）
