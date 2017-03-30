@@ -27,6 +27,8 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
         queueName = channel.queueDeclare().getQueue();
         // bind exchange and queue
         channel.queueBind(queueName, exchangeName, bindingKey);
+        // 每个工作人员预取消息数 （在处理并确认前一个消息之前，不要向工作人员发送新消息）
+        channel.basicQos(1);
     }
 
     public void run() {
