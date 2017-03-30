@@ -12,12 +12,17 @@ import org.springframework.util.SerializationUtils;
  */
 public class Producer extends EndPoint {
 
-    public Producer(String QUEUE_NAME) throws Exception {
-        super(QUEUE_NAME);
+    public Producer(String exchangeName) throws Exception {
+        super(exchangeName);
     }
 
-    // 消息持久性：写入磁盘/缓存。该持久性用于简单任务队列，如需强大的保证use publisher confirms
     public void sendMessage(Serializable object) throws Exception {
-        channel.basicPublish("", QUEUE_NAME, MessageProperties.PERSISTENT_TEXT_PLAIN, SerializationUtils.serialize(object));
+        /**
+         * @param arg1: exchangeName （""表示默认交换机）
+         * @param arg2: queueName
+         * @param arg3: MessageProperties 消息属性 （消息持久性：写入磁盘/缓存。简单持久性，如需强大的保证use publisher confirms）
+         * @param byte[]: 消息字节数组
+         */
+        channel.basicPublish(exchangeName, "", MessageProperties.PERSISTENT_TEXT_PLAIN, SerializationUtils.serialize(object));
     }
 }

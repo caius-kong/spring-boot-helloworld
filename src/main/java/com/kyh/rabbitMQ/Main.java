@@ -11,11 +11,11 @@ public class Main {
         // 消费者线程，接收消息
         ExecutorService executors = Executors.newFixedThreadPool(3);
         for(int i=0; i<3; i++){
-            executors.submit(new QueueConsumer("queue1"));
+            executors.submit(new QueueConsumer("logs"));
         }
 
         // 生产者，发送消息
-        Producer producer = new Producer("queue1");
+        Producer producer = new Producer("logs");
         for (int i = 0; i < 10; i++) {
             HashMap message = new HashMap();
             message.put("message number", i);

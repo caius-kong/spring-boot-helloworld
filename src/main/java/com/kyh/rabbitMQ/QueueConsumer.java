@@ -18,13 +18,15 @@ import org.springframework.util.SerializationUtils;
  * 2、Consumer接口（若不实现Consumer接口，也可以new DefaultConsumer）。
  */
 public class QueueConsumer extends EndPoint implements Runnable, Consumer {
+    private String queueName;
     private boolean autoAck = false;
 
-    public QueueConsumer(String QUEUE_NAME) throws Exception {
-        super(QUEUE_NAME);
-        // 在处理并确认前一个消息之前，不要向工作人员发送新消息
-        int prefetchCount = 1;
-        channel.basicQos(prefetchCount);
+    public QueueConsumer(String exchangeName) throws Exception {
+        super(exchangeName);
+        // random queue
+        queueName = channel.queueDeclare().getQueue();
+        // bind exchange and queue
+        channel.queueBind(queueName, exchangeName, "");
     }
 
     public void run() {
@@ -32,7 +34,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
             //start consuming messages. Don't auto acknowledge messages.
             //true: 接到消息，自动消息确认。
             //false: 关闭自动消息确认。在工作全部完成时，手动发出消息确认。(确保消费者接收消息后，若未执行完任务，消息不丢失，重新入队)
-            channel.basicConsume(QUEUE_NAME, autoAck, this);
+            channel.basicConsume(queueName, autoAck, this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +56,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
         System.out.println(consumerTag + ": Message Number " + map.get("message number") + " received.");
         // long time work...
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch(Exception e){
             e.printStackTrace();
         }finally {

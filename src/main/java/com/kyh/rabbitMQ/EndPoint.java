@@ -8,33 +8,26 @@ import com.rabbitmq.client.ConnectionFactory;
  * Represents a connection with a queue
  */
 public abstract class EndPoint {
-
-    protected Channel channel;
     protected Connection connection;
-    protected String QUEUE_NAME;
+    protected Channel channel;
+    protected String exchangeName;
 
-    public EndPoint(String queue_name) throws Exception {
-        this.QUEUE_NAME = queue_name;
+    /**
+     * 连接服务器，打开一个channel，申明一个exchange
+     */
+    public EndPoint(String exchangeName) throws Exception {
+        this.exchangeName = exchangeName;
 
-        //Create a connection factory
         ConnectionFactory factory = new ConnectionFactory();
-
-        //hostname of your rabbitmq server (localhost默认使用guest用户)
         factory.setHost("127.0.0.1");
         factory.setUsername("kong");
         factory.setPassword("123");
-
-        //getting a connection
         connection = factory.newConnection();
 
-        //creating a channel
         channel = connection.createChannel();
+        channel.basicQos(1); // 每个工作人员预取消息数 （在处理并确认前一个消息之前，不要向工作人员发送新消息）
 
-        //declaring a queue for this channel. If queue does not exist,
-        //it will be created on the server.
-        boolean durable = true; // 队列持久性 （注：RabbitMQ不允许重新定义具有不同参数的现有队列，因此需要换QUEUE_NAME）
-        channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
-
+        channel.exchangeDeclare(exchangeName, "fanout");
     }
 
 
