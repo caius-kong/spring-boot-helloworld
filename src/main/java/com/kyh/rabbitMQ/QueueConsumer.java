@@ -23,7 +23,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
 
     public QueueConsumer(String exchangeName) throws Exception {
         super(exchangeName);
-        // random queue
+        // random queue (为什么使用临时队列？因为我们希望每一个消费者都获取所有消息！因此每一个消费者连接服务器时都创建一个具有随机名称的队列)
         queueName = channel.queueDeclare().getQueue();
         // bind exchange and queue
         channel.queueBind(queueName, exchangeName, "");
