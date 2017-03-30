@@ -27,7 +27,7 @@ public abstract class EndPoint {
         channel = connection.createChannel();
         channel.basicQos(1); // 每个工作人员预取消息数 （在处理并确认前一个消息之前，不要向工作人员发送新消息）
 
-        channel.exchangeDeclare(exchangeName, "fanout");
+        channel.exchangeDeclare(exchangeName, "direct");
     }
 
 
