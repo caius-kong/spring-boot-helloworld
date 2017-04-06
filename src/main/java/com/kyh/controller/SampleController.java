@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * @RestController: @Controller + @ResponseBody
  */
 
-@Api(value = "API - SampleController", description = "Sample管理")
+@Api(value = "SampleController", description = "Sample管理")
 @RestController
 @RequestMapping("/")
 public class SampleController {
