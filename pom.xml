@@ -63,6 +63,18 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.28</version>
+        </dependency>
+
+        <!-- rabbitmq-console -->
+        <dependency>
+            <groupId>augtek.rabbitmq</groupId>
+            <artifactId>rabbitmq-console</artifactId>
+            <version>1.0</version>
+        </dependency>
 
     </dependencies>
 

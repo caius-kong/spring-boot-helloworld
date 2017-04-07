@@ -12,8 +12,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * 通过@Configuration注解，让Spring来加载该类配置。
- * 通过@EnableSwagger2注解，启用Swagger2。
+ * @Configuration 让Spring来加载该类配置 等价于<beans/>
+ * @EnableSwagger2 启用Swagger2。
  *
  * 通过扫描包的方式，控制哪些接口暴露给Swagger来展现（除了被@ApiIgnore指定的请求）
  */

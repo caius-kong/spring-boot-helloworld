@@ -1,7 +1,6 @@
-package com.kyh.rabbitMQ;
+package com.kyh.rabbitmq.demo;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
