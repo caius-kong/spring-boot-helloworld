@@ -1,25 +1,19 @@
 package com.kyh.rabbitmq.spring_rabbit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
-
-import java.io.UnsupportedEncodingException;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 
 /**
- * 设置一个监听的业务类，实现接口MessageListener
+ * Created by kongyunhui on 2017/4/7.
  */
-public class Receiver implements MessageListener {
-    private static final Logger LOG = LoggerFactory.getLogger(Receiver.class);
+public class Receiver implements ChannelAwareMessageListener {
 
     @Override
-    public void onMessage(Message message) {
-        LOG.info("receive message: {}", message);
-        try {
-            LOG.info("receive message body:", new String(message.getBody(), "utf-8"));
-        }catch(UnsupportedEncodingException e){
-            LOG.error("error: {}", e.getMessage());
-        }
+    public void onMessage(Message message, Channel channel) throws Exception {
+        byte[] body = message.getBody();
+        System.out.println("receive msg : " + new String(body));
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false); //确认消息成功消费
     }
+
 }

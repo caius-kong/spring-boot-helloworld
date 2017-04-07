@@ -13,6 +13,8 @@ import com.rabbitmq.client.MessageProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 /**
  * Created by kongyunhui on 2017/4/6.
  *
@@ -43,7 +45,10 @@ public class Console {
          */
         // 接收消息
 //        receiverMessage();
-        findUser();
+
+        // other
+//        findUser();
+        sendMessageToQ1();
 
     }
 
@@ -151,14 +156,28 @@ public class Console {
         }
     }
 
+    /**
+     * ==========================
+     */
     public static void findUser(){
         ServerConfig serverConfig = new ServerConfig("localhost", 15672, "guest", "guest");
         try{
-            JSONObject guest = UserAPIs.findUser(serverConfig, "guest");
+            JSONObject guest = UserAPIs.findUser(serverConfig, "campany1");
 
             String name = (String)guest.get("name");
 
             System.out.println(guest);
+        }catch(ResponseException e) {
+            LOG.error("error: {}", e.getMessage());
+        }
+    }
+
+    public static void sendMessageToQ1(){
+        ServerConfig serverConfig = new ServerConfig("localhost", 15672, "guest", "guest");
+        try{
+            JSONObject jsonObject = ExchangeAPIs.sendMessageToExchange(serverConfig, "%2f", "augtek_X_direct", MessageProperties.PERSISTENT_TEXT_PLAIN,
+                    "T1", "hello, campany1! Date:" + new Date(), "string");
+            System.out.println(jsonObject);
         }catch(ResponseException e) {
             LOG.error("error: {}", e.getMessage());
         }

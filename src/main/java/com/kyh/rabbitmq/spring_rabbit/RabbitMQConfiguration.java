@@ -8,8 +8,10 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 /**
  * Created by kongyunhui on 2017/4/6.
@@ -20,9 +22,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitMQConfiguration {
-    private final static String QUEUE_NAME = "queue2";
-    private final static String EXCHANGE_NAME = "direct_test";
-    private final static String ROUTING_KEY="T1";
+    public final static String QUEUE_NAME = "augtek_Q_1";
+    public final static String EXCHANGE_NAME = "augtek_X_direct";
+    public final static String ROUTING_KEY="T1";
 
     // RabbitMQ的配置信息
     @Value("${mq.rabbit.host}")
@@ -36,67 +38,82 @@ public class RabbitMQConfiguration {
     @Value("${mq.rabbit.virtualHost}")
     private String mRabbitVirtualHost;
 
-    // 建立一个ServerConfig bean
-    @Bean
-    public ServerConfig serverConfig(){
-        return new ServerConfig(mRabbitHost, mRabbitPort, mRabbitUsername, mRabbitPassword);
-    }
-
     // 建立一个连接容器，类似数据库的连接池。
     @Bean
     public ConnectionFactory connectionFactory() {
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(mRabbitHost, mRabbitPort);
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
+        connectionFactory.setHost(mRabbitHost);
+        connectionFactory.setPort(mRabbitPort);
         connectionFactory.setUsername(mRabbitUsername);
         connectionFactory.setPassword(mRabbitPassword);
         connectionFactory.setVirtualHost(mRabbitVirtualHost);
+        connectionFactory.setPublisherConfirms(true); //必须要设置
         return connectionFactory;
     }
 
+    /**
+     * 如果需要生产者确认消息回调，需要对rabbitTemplate设置ConfirmCallback对象。
+     * 由于不同的生产者需要对应不同的ConfirmCallback，如果rabbitTemplate设置为单例bean，则所有的rabbitTemplate实际的ConfirmCallback为最后一次申明的ConfirmCallback。
+     *
+     * 因此：必须是prototype类型
+     * @return
+     */
     @Bean
-    public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory){
-        return new RabbitAdmin(connectionFactory);
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public RabbitTemplate rabbitTemplate() {
+        return new RabbitTemplate(connectionFactory());
     }
 
-    // RabbitMQ的使用入口
-    @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        return new RabbitTemplate(connectionFactory);
-    }
-
-    // 定义一个直连交换机
-    @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE_NAME);
-    }
-
-    // 要求RabbitMQ建立一个队列。
-    @Bean
-    public Queue myQueue() {
-        return new Queue(QUEUE_NAME);
-    }
-
-    // 在spring容器中添加一个监听类
-    @Bean
-    Receiver receiver() {
-        return new Receiver();
-    }
+    /**
+     * 针对消费者配置
+     * 1. 定义一个交换机
+     * 2. 定义一个队列
+     * 3. 将队列绑定到交换机
+     *
+     * FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
+     * HeadersExchange ：通过添加属性key-value匹配
+     * DirectExchange:按照routingkey分发到指定队列
+     * TopicExchange:多关键字匹配
+     */
+//    @Bean
+//    public DirectExchange defaultExchange() {
+//        return new DirectExchange(EXCHANGE_NAME);
+//    }
+//
+//    @Bean
+//    public Queue queue() {
+//        return new Queue(QUEUE_NAME, true); //队列持久
+//
+//    }
+//
+//    @Bean
+//    public Binding binding() {
+//        return BindingBuilder.bind(queue()).to(defaultExchange()).with(ROUTING_KEY);
+//    }
 
     // 声明一个监听容器
     @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory, Receiver messageListener) {
-
+    public SimpleMessageListenerContainer messageContainer(ConnectionFactory connectionFactory, Receiver messageListener) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
+        // 定义消费者自己的connectionFactory (我们不希望使用配置文件设置的那个登录信息)
+        CachingConnectionFactory factory = new CachingConnectionFactory();
+        factory.setHost(mRabbitHost);
+        factory.setPort(mRabbitPort);
+        factory.setUsername("campany1");
+        factory.setPassword("123");
+        container.setConnectionFactory(factory);
         container.setQueueNames(new String[]{QUEUE_NAME});
+        container.setExposeListenerChannel(true);
+        container.setMaxConcurrentConsumers(1);
+        container.setConcurrentConsumers(1);
+        container.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
         container.setMessageListener(messageListener);
-
         return container;
     }
 
-    // 要求队列和直连交换机绑定，指定ROUTING_KEY
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
+    public Receiver receiver(){
+        return new Receiver();
     }
 }
 
