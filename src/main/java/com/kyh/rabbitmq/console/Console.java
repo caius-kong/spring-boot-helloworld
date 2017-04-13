@@ -23,34 +23,34 @@ import java.util.Date;
 public class Console {
     private static final Logger LOG = LoggerFactory.getLogger(Console.class);
 
-    public static void main(String[] args){
-        /**
-         * 云平台操作
-         */
-        // 创建X - augtek
-//        createX();
-        // 创建3个队列
-//        create3Q();
-        // 3个队列分别以key=T1,T2,T3绑定X
-//        bindingQ_X();
-        // 创建3个用户
-//        create3U();
-        // 给三个用户分别授予对Q1,Q2,Q3的读权限
-//        grant3UPermissons();
-        // 发消息
-//        sendMessage();
-
-        /**
-         * 应用软件操作
-         */
-        // 接收消息
-//        receiverMessage();
-
-        // other
-//        findUser();
-        sendMessageToQ1();
-
-    }
+//    public static void main(String[] args){
+//        /**
+//         * 云平台操作
+//         */
+//        // 创建X - augtek
+////        createX();
+//        // 创建3个队列
+////        create3Q();
+//        // 3个队列分别以key=T1,T2,T3绑定X
+////        bindingQ_X();
+//        // 创建3个用户
+////        create3U();
+//        // 给三个用户分别授予对Q1,Q2,Q3的读权限
+////        grant3UPermissons();
+//        // 发消息
+////        sendMessage();
+//
+//        /**
+//         * 应用软件操作
+//         */
+//        // 接收消息
+////        receiverMessage();
+//
+//        // other
+////        findUser();
+//        sendMessageToQ1();
+//
+//    }
 
     private static void createX(){
         ServerConfig serverConfig = new ServerConfig("localhost", 15672, "guest", "guest");
