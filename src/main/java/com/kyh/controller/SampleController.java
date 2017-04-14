@@ -1,6 +1,7 @@
 package com.kyh.controller;
 
 import io.swagger.annotations.*;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.Model;
@@ -23,9 +24,9 @@ public class SampleController {
         return "Hello World!";
     }
 
-    @ApiOperation(value="打招呼接口", notes="此接口描述的是xxxxxx", httpMethod = "GET", response = String.class)
+    @ApiOperation(value="打招呼接口", notes="此接口描述的是和某人打招呼的操作")
     @ApiImplicitParams({
-        @ApiImplicitParam(name="name", value = "打招呼的目标姓名", required = true, dataType = "string")
+        @ApiImplicitParam(name="name", value = "目标姓名", required = true, dataType = "string", paramType = "query")
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "Successful — 请求已完成"),
@@ -34,8 +35,9 @@ public class SampleController {
             @ApiResponse(code = 404, message = "服务器找不到给定的资源；文档不存在"),
             @ApiResponse(code = 500, message = "服务器不能完成请求")
     })
-    @RequestMapping(value="/sayHello/{name}", method = RequestMethod.GET)
-    public String sayHello(@PathVariable("name") String name) {
+    @RequestMapping(value="/sayHello", method = RequestMethod.POST, headers = "version=1.0")
+    public String sayHello(@RequestParam String name, @RequestHeader("version") String version) {
+        System.out.println("--->" + name);
         return "你好, " + name;
     }
 }
