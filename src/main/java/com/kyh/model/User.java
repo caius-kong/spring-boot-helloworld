@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * Created by kongyunhui on 2017/3/29.
  */
-public class User implements Serializable {
+public class User {
     private Long id;
+
     private String name;
-    private int age;
 
     public Long getId() {
         return id;
@@ -23,14 +23,14 @@ public class User implements Serializable {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? null : name.trim();
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
