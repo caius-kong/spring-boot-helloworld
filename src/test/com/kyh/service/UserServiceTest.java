@@ -1,3 +1,5 @@
+package com.kyh.service;
+
 import com.kyh.Application;
 import com.kyh.model.User;
 import com.kyh.service.UserService;

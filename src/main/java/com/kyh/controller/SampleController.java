@@ -1,7 +1,9 @@
 package com.kyh.controller;
 
+import com.kyh.service.UserService;
 import io.swagger.annotations.*;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.Model;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/")
 public class SampleController {
+    @Autowired
+    private UserService userService;
 
     @ApiOperation("helloworld接口")
     @RequestMapping(value="", method = RequestMethod.GET)
     public String index() {
-        return "Hello World!";
+        return "Hello World!" + userService.findUser(1l);
     }
 
     @ApiOperation(value="打招呼接口", notes="此接口描述的是和某人打招呼的操作")
@@ -37,7 +41,6 @@ public class SampleController {
     })
     @RequestMapping(value="/sayHello", method = RequestMethod.POST, headers = "version=1.0")
     public String sayHello(@RequestParam String name, @RequestHeader("version") String version) {
-        System.out.println("--->" + name);
         return "你好, " + name;
     }
 }
