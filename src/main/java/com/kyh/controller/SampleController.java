@@ -1,5 +1,7 @@
 package com.kyh.controller;
 
+import com.kyh.exception.MyException;
+import com.kyh.model.User;
 import com.kyh.service.UserService;
 import io.swagger.annotations.*;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -42,5 +44,15 @@ public class SampleController {
     @RequestMapping(value="/sayHello", method = RequestMethod.POST, headers = "version=1.0")
     public String sayHello(@RequestParam String name, @RequestHeader("version") String version) {
         return "你好, " + name;
+    }
+
+    @RequestMapping("/errorHtml")
+    public User errorHtml() throws Exception{
+        throw new Exception("发生错误");
+    }
+
+    @RequestMapping("/errorJson")
+    public User errorJson() throws Exception{
+        throw new MyException("发生错误");
     }
 }
