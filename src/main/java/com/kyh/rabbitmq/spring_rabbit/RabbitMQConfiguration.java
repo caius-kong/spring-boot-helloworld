@@ -99,7 +99,7 @@ public class RabbitMQConfiguration {
         CachingConnectionFactory factory = new CachingConnectionFactory();
         factory.setHost(mRabbitHost);
         factory.setPort(mRabbitPort);
-        factory.setUsername("campany1");
+        factory.setUsername("campany1"); // 消费者campany2被拒绝访问augtek_Q_1，会进入死循环！？？？无限重启
         factory.setPassword("123");
         container.setConnectionFactory(factory);
         container.setQueueNames(new String[]{QUEUE_NAME});

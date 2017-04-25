@@ -1,13 +1,12 @@
 package com.kyh;
 
-import org.mapstruct.MapperConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Created by kongyunhui on 2017/3/28.
@@ -23,6 +22,17 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @MapperScan("com.kyh.dao") // 扫描Mapper类的package (注1：Mapper不需要@Repository，注2：需要在application.properties中指定mapper.xml目录)
 public class Application {
+
+    @Bean
+    public WebMvcConfigurer CORSConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/APIs/**");
+            }
+        };
+    }
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
