@@ -2,14 +2,13 @@ package com.kyh.service;
 
 import com.kyh.Application;
 import com.kyh.dao.UserMapper;
+import com.kyh.model.Role;
 import com.kyh.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,23 +20,14 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=Application.class)
 @Transactional // 默认回滚事务
-public class UserServiceTest {
+public class RoleServiceTest {
     @Autowired
-    private UserService userService;
+    private RoleService roleService;
 
     @Test
     public void test1(){
-        User one = userService.findUser(1l);
-        Assert.assertEquals(true, one.getId() == 1l);
-    }
-
-    @Test
-    public void test2(){
-        User user = new User();
-        user.setId(4l);
-        user.setUsername("kongyunhui");
-        user.setPassword("123");
-        int count = userService.createUser(user);
-        Assert.assertEquals(true, count==1);
+        List<String> roles = roleService.getRoles(3l);
+        System.out.println(roles);
+        Assert.assertEquals(2, roles.size());
     }
 }

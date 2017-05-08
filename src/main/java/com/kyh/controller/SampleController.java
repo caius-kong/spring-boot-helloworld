@@ -8,6 +8,8 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class SampleController {
     @ApiOperation("helloworld接口")
     @RequestMapping(value="", method = RequestMethod.GET)
     public String index() {
-        return "Hello World!" + userService.findUser(1l);
+        return "Hello World!" + SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @ApiOperation(value="打招呼接口", notes="此接口描述的是和某人打招呼的操作")

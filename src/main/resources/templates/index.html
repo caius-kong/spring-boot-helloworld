@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]</h1>
+
+<p th:text="'roles' + ${currentUser.roles}"></p>
+
+<form th:action="@{/APIs/logout}" method="post">
+    <input type="submit" value="注销"/>
+</form>
+
+<div sec:authorize="hasAuthority('ADMIN')" > 额外信息，只对管理员显示 </div>
+<p sec:authentication="principal.name"></p>
+
+spring boot security 测试：
+<ul>
+    <li><a th:href="@{/APIs/admin/config}">/admin/config</a></li>
+    <li></li>
+    <li><a th:href="@{/APIs/adminrequire}">/adminrequire</a></li>
+    <li><a th:href="@{/APIs/user/2}">/user/{id}</a></li>
+    <li><a th:href="@{/APIs/order}">/order</a></li>
+</ul>
+</body>
+</html>

@@ -3,10 +3,13 @@
 <mapper namespace="com.kyh.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.kyh.model.User" >
     <id column="ID" property="id" jdbcType="BIGINT" />
-    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="LOCKED" property="locked" jdbcType="INTEGER" />
+    <result column="ROLEIDS" property="roleIds" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, NAME
+    ID, USERNAME, PASSWORD, LOCKED, ROLEIDS
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -19,8 +22,10 @@
     where ID = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.kyh.model.User" >
-    insert into user (ID, NAME)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+    insert into user (ID, USERNAME, PASSWORD, 
+      LOCKED, ROLEIDS)
+    values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{locked,jdbcType=INTEGER}, #{roleIds,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kyh.model.User" >
     insert into user
@@ -28,31 +33,65 @@
       <if test="id != null" >
         ID,
       </if>
-      <if test="name != null" >
-        NAME,
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="locked != null" >
+        LOCKED,
+      </if>
+      <if test="roleIds != null" >
+        ROLEIDS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="roleIds != null" >
+        #{roleIds,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kyh.model.User" >
     update user
     <set >
-      <if test="name != null" >
-        NAME = #{name,jdbcType=VARCHAR},
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="locked != null" >
+        LOCKED = #{locked,jdbcType=INTEGER},
+      </if>
+      <if test="roleIds != null" >
+        ROLEIDS = #{roleIds,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kyh.model.User" >
     update user
-    set NAME = #{name,jdbcType=VARCHAR}
+    set USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      LOCKED = #{locked,jdbcType=INTEGER},
+      ROLEIDS = #{roleIds,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="findByUsername" resultType="User">
+    select * from user where username=#{username}
+  </select>
 </mapper>

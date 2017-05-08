@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Scope;
  *
  * @Bean 产生一个bean，交给spring管理 等价于<bean/>
  */
-@Configuration
+//@Configuration
 public class RabbitMQConfiguration {
     public final static String QUEUE_NAME = "augtek_Q_1";
     public final static String EXCHANGE_NAME = "augtek_X_direct";

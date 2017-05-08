@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,7 +34,8 @@ public class RabbitmqController {
     @Autowired
     private Sender sender;
 
-    @ApiOperation(value = "发送消息的接口")
+    @ApiOperation(value = "发送消息的接口", notes = "需要ADMIN权限")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/sendMsg")
     public void sendMsg(){
         sender.sendMsg("hello guest!");
