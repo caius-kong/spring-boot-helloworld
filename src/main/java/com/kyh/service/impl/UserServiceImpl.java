@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by kongyunhui on 2017/4/20.
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService{
         return userMapper.selectByPrimaryKey(id);
     }
 
+    @Transactional
     @Override
     public int createUser(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
