@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=Application.class)
-@Transactional // 默认回滚事务
+//@Transactional // 默认回滚事务
 public class UserServiceTest {
     @Autowired
     private UserService userService;
@@ -28,7 +28,11 @@ public class UserServiceTest {
     @Test
     public void test1(){
         User one = userService.findUser(1l);
-        Assert.assertEquals(true, one.getId() == 1l);
+        Assert.assertTrue(one.getId() == 1l);
+        System.out.println("func1 end: " + one);
+        User two = userService.findUser(1l);
+        Assert.assertTrue(one.getId() == 1l);
+        System.out.println("func2 end: " + two);
     }
 
     @Test

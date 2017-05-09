@@ -7,6 +7,7 @@ import com.kyh.security.CurrentUser;
 import com.kyh.security.MyUserDetailsService;
 import com.kyh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.findByUsername(username);
     }
 
+    @Cacheable(value = "usercache",keyGenerator = "keyGenerator")
     @Override
     public User findUser(Long id) {
+        System.out.println("无缓存，调用这里...");
         return userMapper.selectByPrimaryKey(id);
     }
 
