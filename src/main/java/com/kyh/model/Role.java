@@ -1,9 +1,11 @@
 package com.kyh.model;
 
+import java.io.Serializable;
+
 /**
  * Created by kongyunhui on 2017/4/25.
  */
-public class Role {
+public class Role implements Serializable{
     private Long id;
     private String name;
     private String description;

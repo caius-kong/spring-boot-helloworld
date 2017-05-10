@@ -1,10 +1,12 @@
 package com.kyh.model;
 
 
+import java.io.Serializable;
+
 /**
  * Created by kongyunhui on 2017/3/29.
  */
-public class User {
+public class User implements Serializable{
     private Long id;
     private String username;
     private String password;
