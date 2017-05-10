@@ -52,6 +52,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisCacheManager;
     }
 
+    // 注：此处虽然是StringRedisTemplate<String, String>，但是value部分设置了jackson2JsonRedisSerializer
+    // 因此，redis存储string:object可行！
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate template = new StringRedisTemplate(factory);
@@ -60,7 +62,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setValueSerializer(jackson2JsonRedisSerializer); // 为了满足(string, object)的映射方式，object->jsonString
         template.afterPropertiesSet();
         return template;
     }
