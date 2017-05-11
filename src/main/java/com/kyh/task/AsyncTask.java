@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.concurrent.Future;
 
 /**
- * 异步任务/并发任务
+ * 异步调用/并发调用
  * 注1：@Async所修饰的函数不要定义为static类型，这样异步调用不会生效
  * 注2：需要手动调用，调用的各个方法是并发执行的。
  * 注3：由于返回Future，因此可以任务回调，判断是否完成。
