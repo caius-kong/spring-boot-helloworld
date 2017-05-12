@@ -1,6 +1,7 @@
 package com.kyh.model;
 
 
+import com.kyh.model.enums.UserType;
 import java.io.Serializable;
 
 /**
@@ -10,6 +11,7 @@ public class User implements Serializable{
     private Long id;
     private String username;
     private String password;
+    private UserType userType;
     private int locked;
     private String roleIds;
 
@@ -37,6 +39,14 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
     public int getLocked() {
         return locked;
     }
@@ -59,6 +69,7 @@ public class User implements Serializable{
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", userType=" + userType +
                 ", locked=" + locked +
                 ", roleIds='" + roleIds + '\'' +
                 '}';

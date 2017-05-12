@@ -3,6 +3,7 @@ package com.kyh.service;
 import com.kyh.Application;
 import com.kyh.dao.UserMapper;
 import com.kyh.model.User;
+import com.kyh.model.enums.UserType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +39,10 @@ public class UserServiceTest {
     @Test
     public void test2(){
         User user = new User();
-        user.setId(4l);
+        user.setId(66l);
         user.setUsername("kongyunhui");
         user.setPassword("123");
+        user.setUserType(UserType.ADMIN);
         int count = userService.createUser(user);
         Assert.assertEquals(true, count==1);
     }
