@@ -5,9 +5,9 @@
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="USERNAME" property="username" jdbcType="VARCHAR" />
     <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
-    <result column="USERTYPE" property="userType" javaType="com.kyh.model.enums.UserType" />
+    <result column="USERTYPE" property="userType" typeHandler="com.kyh.dao.handler.core.EnumCodeTypeHandler" />
     <result column="LOCKED" property="locked" jdbcType="INTEGER" />
-    <result column="ROLEIDS" property="roleIds" jdbcType="VARCHAR" />
+    <result column="ROLEIDS" property="roleIds" typeHandler="com.kyh.dao.handler.ListLongTypeHandler" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, USERNAME, PASSWORD, USERTYPE, LOCKED, ROLEIDS
@@ -26,8 +26,8 @@
     insert into user (ID, USERNAME, PASSWORD, USERTYPE,
       LOCKED, ROLEIDS)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{userType, javaType=com.kyh.model.enums.UserType},
-      #{locked,jdbcType=INTEGER}, #{roleIds,jdbcType=VARCHAR})
+      #{userType, typeHandler=com.kyh.dao.handler.core.EnumCodeTypeHandler},
+      #{locked,jdbcType=INTEGER}, #{roleIds,typeHandler=com.kyh.dao.handler.ListLongTypeHandler})
   </insert>
   <insert id="insertSelective" parameterType="com.kyh.model.User" >
     insert into user
@@ -62,13 +62,13 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
-        #{userType,javaType=com.kyh.model.enums.UserType},
+        #{userType,typeHandler=com.kyh.dao.handler.core.EnumCodeTypeHandler},
       </if>
       <if test="locked != null" >
         #{locked,jdbcType=INTEGER},
       </if>
       <if test="roleIds != null" >
-        #{roleIds,jdbcType=VARCHAR},
+        #{roleIds,typeHandler=com.kyh.dao.handler.ListLongTypeHandler},
       </if>
     </trim>
   </insert>
@@ -82,13 +82,13 @@
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
       <if test="userType != null" >
-        USERTYPE = #{userType,javaType=com.kyh.model.enums.UserType},
+        USERTYPE = #{userType, typeHandler=com.kyh.dao.handler.core.EnumCodeTypeHandler},
       </if>
       <if test="locked != null" >
         LOCKED = #{locked,jdbcType=INTEGER},
       </if>
       <if test="roleIds != null" >
-        ROLEIDS = #{roleIds,jdbcType=VARCHAR},
+        ROLEIDS = #{roleIds,typeHandler=com.kyh.dao.handler.ListLongTypeHandler},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
@@ -97,13 +97,13 @@
     update user
     set USERNAME = #{username,jdbcType=VARCHAR},
       PASSWORD = #{password,jdbcType=VARCHAR},
-      USERTYPE = #{userType,javaType=com.kyh.model.enums.UserType},
+      USERTYPE = #{userType, typeHandler=com.kyh.dao.handler.core.EnumCodeTypeHandler},
       LOCKED = #{locked,jdbcType=INTEGER},
-      ROLEIDS = #{roleIds,jdbcType=VARCHAR}
+      ROLEIDS = #{roleIds,typeHandler=com.kyh.dao.handler.ListLongTypeHandler}
     where ID = #{id,jdbcType=BIGINT}
   </update>
   
-  <select id="findByUsername" resultType="User">
+  <select id="findByUsername" resultMap="BaseResultMap">
     select * from user where username=#{username}
   </select>
 </mapper>

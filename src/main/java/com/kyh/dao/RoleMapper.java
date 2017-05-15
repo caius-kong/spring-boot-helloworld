@@ -18,5 +18,5 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
-    List<String> getRoles(@Param("roleIds") List<String> roleIds);
+    List<String> getRoles(@Param("roleIds") List<Long> roleIds);
 }

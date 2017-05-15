@@ -1,5 +1,6 @@
 package com.kyh.service;
 
+import com.google.common.collect.Lists;
 import com.kyh.Application;
 import com.kyh.dao.UserMapper;
 import com.kyh.model.User;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Test
-    public void test1(){
+    public void query(){
         User one = userService.findUser(1l);
         Assert.assertTrue(one.getId() == 1l);
         System.out.println("func1 end: " + one);
@@ -37,12 +39,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test2(){
+    public void add(){
         User user = new User();
-        user.setId(66l);
-        user.setUsername("kongyunhui");
-        user.setPassword("123");
+        user.setId(3l);
+        user.setUsername("zbzy");
+        user.setPassword("123abc!");
         user.setUserType(UserType.ADMIN);
+        user.setRoleIds(Lists.newArrayList(1l,2l));
         int count = userService.createUser(user);
         Assert.assertEquals(true, count==1);
     }

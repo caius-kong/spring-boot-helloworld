@@ -3,6 +3,7 @@ package com.kyh.model;
 
 import com.kyh.model.enums.UserType;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by kongyunhui on 2017/3/29.
@@ -13,7 +14,7 @@ public class User implements Serializable{
     private String password;
     private UserType userType;
     private int locked;
-    private String roleIds;
+    private List<Long> roleIds;
 
     public Long getId() {
         return id;
@@ -55,11 +56,11 @@ public class User implements Serializable{
         this.locked = locked;
     }
 
-    public String getRoleIds() {
+    public List<Long> getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
+    public void setRoleIds(List<Long> roleIds) {
         this.roleIds = roleIds;
     }
 
