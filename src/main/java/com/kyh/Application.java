@@ -23,8 +23,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 @MapperScan("com.kyh.dao") // 扫描Mapper类的package (注1：Mapper不需要@Repository，注2：需要在application.properties中指定mapper.xml目录)
-@EnableScheduling
-@EnableAsync
+@EnableScheduling // 开启定时任务
+@EnableAsync // 开启异步调用
 public class Application {
 
     @Bean
