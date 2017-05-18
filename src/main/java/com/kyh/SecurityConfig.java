@@ -1,6 +1,7 @@
 package com.kyh;
 
 import com.kyh.constant.StaticParams;
+import com.kyh.security.MyLogoutHandler;
 import com.kyh.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CsrfLogoutHandler;
 
 
 /**
@@ -26,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyUserDetailsService userDetailsService;//自定义用户服务
+
+    @Autowired
+    private MyLogoutHandler logoutHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -42,12 +47,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/APIs/logout")
-                .deleteCookies("remember-me")
+                .addLogoutHandler(logoutHandler)
+                .deleteCookies("remember-me","JSESSIONID","SESSION")
+                .permitAll()
 //                .and().sessionManagement().maximumSessions(1).expiredUrl("/APIs/expired")
 //                .and()
                 .and().exceptionHandling().accessDeniedPage("/APIs/403")
                 .and()
                 .rememberMe();
+//                .and()
+//                .csrf().disable(); // 禁用"同步器标记模式"/CSRF保护
     }
 
     // 身份验证配置，用于注入自定义身份验证工具和密码校验规则

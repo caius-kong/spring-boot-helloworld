@@ -10,6 +10,7 @@
 
 <p th:text="'roles' + ${currentUser.roles}"></p>
 
+<!-- 默认开启csrf保护，存在隐藏字段 -->
 <form th:action="@{/APIs/logout}" method="post">
     <input type="submit" value="注销"/>
 </form>
@@ -25,5 +26,7 @@ spring boot security 测试：
     <li><a th:href="@{/APIs/user/2}">/user/{id}</a></li>
     <li><a th:href="@{/APIs/order}">/order</a></li>
 </ul>
+
+session shared: <a th:href="@{/APIs/uid}">/uid</a>
 </body>
 </html>

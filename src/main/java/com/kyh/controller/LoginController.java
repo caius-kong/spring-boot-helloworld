@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
+import java.util.UUID;
 
 /**
  * Created by kongyunhui on 2017/4/25.
@@ -29,8 +32,12 @@ import java.util.Collection;
 @Api(value = "登录管理", description = "登录管理")
 @Controller
 public class LoginController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 //    @Autowired
 //    private Authentication authentication;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
@@ -47,20 +54,17 @@ public class LoginController {
         return "index";
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/APIs/login?logout";
-    }
-
     // 异常处理，拒绝访问就重定向到 403 页面
     @RequestMapping("/403")
     public String accessDeniedPage(Model model){
         model.addAttribute("accessDenied", "访问被拒绝，您权限不足！");
         return "403";
+    }
+
+    @RequestMapping("/uid")
+    @ResponseBody
+    public String uid(HttpSession session) {
+        return session.getId();
     }
 
     /**
