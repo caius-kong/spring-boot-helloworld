@@ -13,7 +13,7 @@ public class User implements Serializable{
     private String username;
     private String password;
     private UserType userType;
-    private int locked;
+    private Integer locked;
     private List<Long> roleIds;
 
     public Long getId() {
@@ -48,11 +48,11 @@ public class User implements Serializable{
         this.userType = userType;
     }
 
-    public int getLocked() {
+    public Integer getLocked() {
         return locked;
     }
 
-    public void setLocked(int locked) {
+    public void setLocked(Integer locked) {
         this.locked = locked;
     }
 
