@@ -27,15 +27,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "单体查询")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String get(@PathVariable int id) {
-        System.out.println("-getUser-->" + id);
-        return "userInfo";
-    }
-
-    @ApiOperation(value = "分页查询", notes = "参数可选，pageSize=0表示查询所有")
-    @RequestMapping(value = "", method = RequestMethod.PATCH)
+    @ApiOperation(value = "分页查询", notes = "综合查询，参数可选")
+    @RequestMapping(value = "/", method = RequestMethod.PATCH)
     public PageInfo<User> list(
             User user,
             @RequestParam(value = "pageNum", required = false, defaultValue="1") Integer pageNum,
@@ -55,27 +48,32 @@ public class UserController {
             log.error("error:{}", e);
         }
         return result;
-
-
     }
 
-    @ApiOperation(value = "删除")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String delete(@PathVariable int id) {
-        System.out.println("-deleteUser-->" + id);
+    @ApiOperation(value = "单体查询")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String get(@PathVariable Long id) {
+        System.out.println("-getUser-->" + id);
         return "userInfo";
     }
 
     @ApiOperation(value = "增加")
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public String insert(User user) {
         System.out.println("-insertUser-->" + user);
         return "userInfo";
     }
 
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable Long id) {
+        System.out.println("-deleteUser-->" + id);
+        return "userInfo";
+    }
+
     @ApiOperation(value = "更新")
-    @RequestMapping(value = "", method = RequestMethod.PUT)
-    public String update(User user) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public String update(@PathVariable Long id, User user) {
         System.out.println("-updateUser-->" + user);
         return "userInfo";
     }

@@ -71,10 +71,10 @@ public class ApplicationTest {
         HttpHeaders header = new HttpHeaders();
         header.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-        request = patch("/users").headers(header)
-                .param("id", "1")
-                .param("pageNum", "10")
-                .param("pageSize", "2");
+        request = patch("/users/").headers(header);
+//                .param("id", "1")
+//                .param("pageNum", "10")
+//                .param("pageSize", "2");
         mvc.perform(request)
                 .andExpect(status().isOk())
                 .andDo(print());
