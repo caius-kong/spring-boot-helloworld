@@ -7,11 +7,9 @@ import com.kyh.security.CurrentUser;
 import com.kyh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 /**
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public int createUser(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userMapper.insert(user);
+        return userMapper.insertSelective(user);
     }
 
     @Override
