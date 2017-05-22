@@ -1,16 +1,11 @@
-package com.kyh.controller;
+package com.kyh.rest.controller;
 
 import com.kyh.exception.MyException;
 import com.kyh.model.User;
 import com.kyh.service.UserService;
 import io.swagger.annotations.*;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**

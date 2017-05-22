@@ -1,9 +1,7 @@
 package com.kyh.dao;
 
-import com.github.pagehelper.Page;
 import com.kyh.model.User;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 
 public interface UserMapper {

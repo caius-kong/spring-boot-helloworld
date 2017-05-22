@@ -23,7 +23,7 @@ public class WebLogAspect {
 
     ThreadLocal<Long> startTime = new ThreadLocal<>(); // 使用ThreadLocal,解决aop中的同步问题
 
-    @Pointcut("execution(public * com.kyh.controller..*.*(..))")
+    @Pointcut("execution(public * com.kyh.rest.controller..*.*(..))")
     public void webLog() {}
 
     @Before("webLog()")
