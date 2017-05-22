@@ -1,5 +1,6 @@
 package com.kyh.service.impl;
 
+import com.github.pagehelper.Page;
 import com.kyh.constant.StaticParams;
 import com.kyh.dao.UserMapper;
 import com.kyh.model.User;
@@ -12,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by kongyunhui on 2017/4/20.
@@ -44,5 +47,10 @@ public class UserServiceImpl implements UserService{
     public boolean canAccessUser(CurrentUser currentUser, Long userId) {
         return currentUser != null
                 && (currentUser.getRoles().contains(StaticParams.USERROLE.ROLE_ADMIN) || currentUser.getId().equals(userId));
+    }
+
+    @Override
+    public List<User> list(User user) throws Exception{
+        return userMapper.query(user);
     }
 }

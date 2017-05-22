@@ -1,5 +1,6 @@
 package com.kyh.service;
 
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.kyh.Application;
 import com.kyh.dao.UserMapper;
@@ -48,5 +49,12 @@ public class UserServiceTest {
         user.setRoleIds(Lists.newArrayList(1l,2l));
         int count = userService.createUser(user);
         Assert.assertEquals(true, count==1);
+    }
+
+    @Test
+    public void list() throws Exception{
+        List<User> list = userService.list(null);
+        System.out.println(list);
+        System.out.println(new PageInfo<User>(list));
     }
 }

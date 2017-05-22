@@ -1,7 +1,10 @@
 package com.kyh.service;
 
+import com.github.pagehelper.Page;
 import com.kyh.model.User;
 import com.kyh.security.CurrentUser;
+
+import java.util.List;
 
 /**
  * Created by kongyunhui on 2017/4/20.
@@ -15,4 +18,5 @@ public interface UserService {
 
     boolean canAccessUser(CurrentUser currentUser, Long userId);
 
+    List<User> list(User user) throws Exception;
 }

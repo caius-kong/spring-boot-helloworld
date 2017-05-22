@@ -1,7 +1,10 @@
 package com.kyh.dao;
 
+import com.github.pagehelper.Page;
 import com.kyh.model.User;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
@@ -17,4 +20,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User findByUsername(@Param("username") String username);
+
+    List<User> query(User user);
 }

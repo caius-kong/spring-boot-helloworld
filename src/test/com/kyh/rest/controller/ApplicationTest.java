@@ -1,6 +1,7 @@
-package com.kyh.controller;
+package com.kyh.rest.controller;
 
 import com.kyh.Application;
+import com.kyh.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,15 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -61,6 +59,22 @@ public class ApplicationTest {
         header.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
         request = get("").headers(header);
+        mvc.perform(request)
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void testUserController() throws Exception {
+        RequestBuilder request = null;
+
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        request = patch("/users").headers(header)
+                .param("id", "1")
+                .param("pageNum", "10")
+                .param("pageSize", "2");
         mvc.perform(request)
                 .andExpect(status().isOk())
                 .andDo(print());

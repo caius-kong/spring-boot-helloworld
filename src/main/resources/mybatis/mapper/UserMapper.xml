@@ -106,4 +106,22 @@
   <select id="findByUsername" resultMap="BaseResultMap">
     select * from user where username=#{username}
   </select>
+  
+  <select id="query" parameterType="User" resultMap="BaseResultMap">
+    select * from user
+    <where>
+        <if test="id!=null">
+            and ID = #{id, jdbcType=BIGINT}
+        </if>
+        <if test="username!=null">
+            and USERNAME = #{username, jdbcType=VARCHAR}
+        </if>
+        <if test="userType!=null">
+            and USERTYPE = #{userType, typeHandler=com.kyh.dao.handler.core.EnumCodeTypeHandler}
+        </if>
+        <if test="locked!=null">
+            and LOCKED = #{locked, jdbcType=INTEGER}
+        </if>
+    </where>
+  </select>
 </mapper>
