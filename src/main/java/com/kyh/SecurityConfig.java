@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/APIs/logout")
-                .addLogoutHandler(logoutHandler)
+                .addLogoutHandler(logoutHandler) // 注销时进行必要的清理。如果是注销日志的话，使用.logoutSuccessHandler()
                 .deleteCookies("remember-me","JSESSIONID","SESSION")
                 .permitAll()
 //                .and().sessionManagement().maximumSessions(1).expiredUrl("/APIs/expired")

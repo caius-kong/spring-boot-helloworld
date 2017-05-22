@@ -36,8 +36,6 @@ public class LoginController {
 
 //    @Autowired
 //    private Authentication authentication;
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     private static final Logger LOG = LoggerFactory.getLogger(LoginController.class);
 
