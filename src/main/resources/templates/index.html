@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head>
-    <title>Hello World!</title>
-</head>
+
+<th:block th:include="common/header :: head"></th:block>
+
 <body>
+<th:block th:include="common/header :: header"></th:block>
 
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]</h1>
+<div id="main">
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]</h1>
 
-<p th:text="'roles' + ${currentUser.roles}"></p>
+    <p th:text="'roles' + ${currentUser.roles}"></p>
 
-<!-- 默认开启csrf保护，存在隐藏字段 -->
-<form th:action="@{/APIs/logout}" method="post">
-    <input type="submit" value="注销"/>
-</form>
+    <!-- 默认开启csrf保护，存在隐藏字段 -->
+    <form th:action="@{/APIs/logout}" method="post">
+        <input type="submit" value="注销"/>
+    </form><br/>
 
-<div sec:authorize="hasAuthority('ADMIN')" > 额外信息，只对管理员显示 </div>
-<p sec:authentication="principal.name"></p>
+    <div sec:authorize="hasAuthority('ADMIN')"> 后台(额外信息，只对管理员显示)</div>
 
-spring boot security 测试：
-<ul>
-    <li><a th:href="@{/APIs/admin/config}">/admin/config</a></li>
-    <li></li>
-    <li><a th:href="@{/APIs/adminrequire}">/adminrequire</a></li>
-    <li><a th:href="@{/APIs/user/2}">/user/{id}</a></li>
-    <li><a th:href="@{/APIs/order}">/order</a></li>
-</ul>
+    <p sec:authentication="principal"></p>
 
-session shared: <a th:href="@{/APIs/uid}">/uid</a>
+    spring boot security 测试：
+    <ul>
+        <li><a th:href="@{/APIs/admin/config}">/admin/config</a></li>
+        <li></li>
+        <li><a th:href="@{/APIs/adminrequire}">/adminrequire</a></li>
+        <li><a th:href="@{/APIs/user/2}">/user/{id}</a></li>
+        <li><a th:href="@{/APIs/order}">/order</a></li>
+    </ul>
+
+    session shared: <a th:href="@{/APIs/uid}">/uid</a>
+</div>
+
+<th:block th:include="common/footer :: footer"></th:block>
 </body>
 </html>

@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head lang="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<div th:fragment="footer">
 
+<div th:fragment="footer">
+    <hr/>
+    <div class="footer">spring-boot-helloworld, kongyunhui, 2017</div>
+
+    <!-- all js -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"
+            th:src="@{/APIs/js/jquery.min.js}"></script>
+
+
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            th:src="@{/APIs/js/bootstrap.min.js}"></script>
+
+
+    <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"
+            th:src="@{/APIs/js/jquery.dataTables.min.js}"></script>
+
+    <script src="../../../public/js/index.js"
+            th:src="@{/APIs/js/jquery.dataTables.min.js}"></script>
 
 </div>
+
 </body>
 </html>
