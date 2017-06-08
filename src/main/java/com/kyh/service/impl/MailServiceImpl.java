@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -20,6 +21,7 @@ import java.io.File;
  * 多媒体邮件信息：MimeMessage --> MimeMessageHelper
  */
 @Service
+@Profile("prod") // spring.profiles.active=prod时才会实例化MailServiceImpl
 public class MailServiceImpl implements MailService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
