@@ -124,6 +124,7 @@
                  原因：没有在/var/log下创建文件的权限
                  解决：终端运行==> $ sudo chmod -R 777 /var/log
             -->
+            <appender-ref ref="STDOUT" />
             <appender-ref ref="FILEERROR" />
             <appender-ref ref="FILEWARN" />
             <appender-ref ref="FILEINFO" />
