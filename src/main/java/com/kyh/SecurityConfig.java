@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/hello.html", "/APIs/", "/public/**").permitAll()
+                .antMatchers("/APIs/", "/APIs/hello.html", "/APIs/css/**", "/APIs/js/**").permitAll() // 指定放行的URL模式(主要就是调整：静态资源不做安全控制；/APIs/是查看当前用户的接口，测试专用，放行)
                 .antMatchers("/APIs/admin/**").hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and()
