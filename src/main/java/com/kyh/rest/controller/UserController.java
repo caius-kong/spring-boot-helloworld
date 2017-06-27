@@ -1,9 +1,9 @@
 package com.kyh.rest.controller;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kyh.model.User;
+import com.kyh.rest.vo.BaseResult;
 import com.kyh.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,9 +59,16 @@ public class UserController {
 
     @ApiOperation(value = "增加")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String insert(User user) {
-        System.out.println("-insertUser-->" + user);
-        return "userInfo";
+    public BaseResult insert(User user) {
+        BaseResult<User> resp = null;
+        try{
+            int count = userService.createUser(user);
+            if(count > 0)
+                resp = new BaseResult<User>(true, user);
+        }catch(Exception e){
+            resp = new BaseResult(false, e.getMessage());
+        }
+        return resp;
     }
 
     @ApiOperation(value = "删除")

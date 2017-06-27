@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public int createUser(User user) {
+    public int createUser(User user) throws Exception{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userMapper.insertSelective(user);
     }

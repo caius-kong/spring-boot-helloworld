@@ -40,7 +40,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void add(){
+    public void add() throws Exception{
         User user = new User();
         user.setId(3l);
         user.setUsername("zbzy");
