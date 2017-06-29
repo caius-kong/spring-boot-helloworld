@@ -1,9 +1,6 @@
 package com.kyh.service;
 
 import com.kyh.Application;
-import com.kyh.dao.UserMapper;
-import com.kyh.model.Role;
-import com.kyh.model.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package com.kyh.service;
 
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import com.kyh.security.CurrentUser;
 import java.util.List;
 

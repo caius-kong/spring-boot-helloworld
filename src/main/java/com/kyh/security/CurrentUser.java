@@ -1,9 +1,8 @@
 package com.kyh.security;
 
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import org.springframework.security.core.authority.AuthorityUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

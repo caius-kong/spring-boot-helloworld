@@ -1,7 +1,7 @@
 package com.kyh.rest.controller;
 
 import com.kyh.exception.MyException;
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import com.kyh.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

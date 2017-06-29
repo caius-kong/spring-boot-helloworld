@@ -2,7 +2,7 @@ package com.kyh.rest.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import com.kyh.rest.vo.BaseResult;
 import com.kyh.service.UserService;
 import io.swagger.annotations.Api;

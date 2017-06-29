@@ -1,7 +1,6 @@
 package com.kyh.rest.controller;
 
 import com.kyh.Application;
-import com.kyh.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,7 +79,7 @@ public class ApplicationTest {
 //                .andDo(print());
 
         request = post("/users/").headers(header)
-                .param("id", "9")
+                .param("id", "11")
                 .param("username", "9")
                 .param("password", "9");
         mvc.perform(request)

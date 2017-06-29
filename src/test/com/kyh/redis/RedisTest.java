@@ -1,8 +1,7 @@
 package com.kyh.redis;
 
 import com.kyh.Application;
-import com.kyh.model.User;
-import org.junit.Assert;
+import com.kyh.model.primary.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

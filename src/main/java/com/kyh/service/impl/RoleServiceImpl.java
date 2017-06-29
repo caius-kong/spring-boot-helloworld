@@ -1,16 +1,13 @@
 package com.kyh.service.impl;
 
-import com.google.common.collect.Lists;
-import com.kyh.dao.RoleMapper;
-import com.kyh.dao.UserMapper;
+import com.kyh.dao.primary.RoleMapper;
+import com.kyh.dao.primary.UserMapper;
 import com.kyh.exception.MyException;
-import com.kyh.model.Role;
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import com.kyh.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

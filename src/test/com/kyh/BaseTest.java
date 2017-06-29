@@ -20,6 +20,7 @@ import java.io.File;
  * Created by kongyunhui on 2017/4/26.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class)
 public class BaseTest {
     @Test
     public void test1(){
