@@ -1,4 +1,4 @@
-package com.kyh.model;
+package com.kyh.model.primary;
 
 
 import com.kyh.model.enums.UserType;

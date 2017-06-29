@@ -1,4 +1,4 @@
-package com.kyh.model;
+package com.kyh.model.primary;
 
 import java.io.Serializable;
 

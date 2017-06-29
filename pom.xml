@@ -128,6 +128,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.6</version>
         </dependency>
+        <dependency> <!-- Druid 是 Java 的数据库连接池组件。Druid 能够提供强大的监控和扩展功能。例如：监控业务可以查询慢查询 SQL 列表等。 -->
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.29</version>
+        </dependency>
 
         <!-- swagger2 -->
         <dependency>

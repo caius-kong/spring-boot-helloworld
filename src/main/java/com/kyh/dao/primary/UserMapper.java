@@ -1,6 +1,6 @@
-package com.kyh.dao;
+package com.kyh.dao.primary;
 
-import com.kyh.model.User;
+import com.kyh.model.primary.User;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
