@@ -1,8 +1,10 @@
 package com.kyh.service.impl;
 
 import com.kyh.constant.StaticParams;
-import com.kyh.dao.UserMapper;
-import com.kyh.model.User;
+import com.kyh.dao.primary.UserMapper;
+import com.kyh.dao.secondary.LogMapper;
+import com.kyh.model.primary.User;
+import com.kyh.model.secondary.Log;
 import com.kyh.security.CurrentUser;
 import com.kyh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by kongyunhui on 2017/4/20.
@@ -19,6 +22,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private LogMapper logMapper;
 
     @Override
     public User findByUsername(String username) {
@@ -35,8 +40,13 @@ public class UserServiceImpl implements UserService{
     @Transactional
     @Override
     public int createUser(User user) throws Exception{
+        int count = -1;
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return userMapper.insertSelective(user);
+        count = userMapper.insertSelective(user);
+        if(count > 0) {
+            logMapper.insert(new Log("创建用户", "创建用户：" + user));
+        }
+        return count;
     }
 
     @Override
