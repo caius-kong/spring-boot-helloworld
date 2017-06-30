@@ -42,8 +42,8 @@ public class UserServiceTest {
         user.setPassword("123abc!");
         user.setUserType(UserType.ADMIN);
         user.setRoleIds(Lists.newArrayList(1l,2l));
-        int count = userService.createUser(user);
-        Assert.assertEquals(true, count==1);
+        userService.createUser(user);
+        Assert.assertEquals(true, user.getId()==3l);
     }
 
     @Test

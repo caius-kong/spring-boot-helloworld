@@ -39,14 +39,11 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public int createUser(User user) throws Exception{
-        int count = -1;
+    public User createUser(User user) throws Exception{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        count = userMapper.insertSelective(user);
-        if(count > 0) {
-            logMapper.insert(new Log("创建用户", "创建用户：" + user));
-        }
-        return count;
+        userMapper.insertSelective(user);
+        logMapper.insertSelective(new Log("创建用户", "创建用户：" + user));
+        return user;
     }
 
     @Override

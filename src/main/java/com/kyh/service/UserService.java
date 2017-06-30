@@ -12,7 +12,7 @@ public interface UserService {
 
     User findUser(Long id);
 
-    int createUser(User user) throws Exception;
+    User createUser(User user) throws Exception;
 
     boolean canAccessUser(CurrentUser currentUser, Long userId);
 

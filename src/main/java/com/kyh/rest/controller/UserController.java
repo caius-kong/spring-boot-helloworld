@@ -62,9 +62,8 @@ public class UserController {
     public BaseResult insert(User user) {
         BaseResult<User> resp = null;
         try{
-            int count = userService.createUser(user);
-            if(count > 0)
-                resp = new BaseResult<User>(true, user);
+            user = userService.createUser(user);
+            resp = new BaseResult<User>(true, user);
         }catch(Exception e){
             resp = new BaseResult(false, e.getMessage());
         }
