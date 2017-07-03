@@ -103,6 +103,12 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
+        <!-- spring boot：atomikos 分布式事务 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+        </dependency>
+
         <!-- pagehelper -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -118,15 +124,14 @@
         </dependency>
 
         <!-- db -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>4.1.2</version>
-        </dependency>
-        <dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.flywaydb</groupId>-->
+            <!--<artifactId>flyway-core</artifactId>-->
+            <!--<version>4.1.2</version>-->
+        <!--</dependency>-->
+        <dependency> <!-- 5.1.6 集成 atomikos报错 -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.6</version>
         </dependency>
         <dependency> <!-- Druid 是 Java 的数据库连接池组件。Druid 能够提供强大的监控和扩展功能。例如：监控业务可以查询慢查询 SQL 列表等。 -->
             <groupId>com.alibaba</groupId>

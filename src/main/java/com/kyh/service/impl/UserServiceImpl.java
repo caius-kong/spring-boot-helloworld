@@ -21,9 +21,9 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService{
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper userMapper; // 主数据源
     @Autowired
-    private LogMapper logMapper;
+    private LogMapper logMapper; // 从数据源
 
     @Override
     public User findByUsername(String username) {
@@ -43,6 +43,10 @@ public class UserServiceImpl implements UserService{
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userMapper.insertSelective(user);
         logMapper.insertSelective(new Log("创建用户", "创建用户：" + user));
+        // 故意抛出异常，测试事务回滚
+//        if(true) {
+//            throw new RuntimeException("test tx ");
+//        }
         return user;
     }
 

@@ -1,19 +1,16 @@
 package com.kyh.config.ds;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * Created by kongyunhui on 2017/6/28.
@@ -33,22 +30,24 @@ public class SecondaryDataSourceConfig {
     private String username;
     @Value("${spring.datasource.secondary.password}")
     private String password;
-    @Value("${spring.datasource.secondary.driverClassName}")
-    private String driverClassName;
 
     @Bean(name="secondaryDataSource")
     public DataSource secondaryDataSource(){
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setDriverClassName(driverClassName);
-        return dataSource;
-    }
+        AtomikosDataSourceBean atomikosDataSourceBean = new AtomikosDataSourceBean();
+        atomikosDataSourceBean.setUniqueResourceName("secondaryDataSource");
+        atomikosDataSourceBean.setXaDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlXADataSource"); // XA协议的数据源
+        Properties properties = new Properties();
+        properties.put("URL", url);
+        properties.put("user", username);
+        properties.put("password", password);
+        atomikosDataSourceBean.setXaProperties(properties);
 
-    @Bean(name="secondaryTransactionManager")
-    public DataSourceTransactionManager secondaryTransactionManager(@Qualifier("secondaryDataSource") DataSource dataSource){
-        return new DataSourceTransactionManager(dataSource);
+        atomikosDataSourceBean.setMinPoolSize(10);
+        atomikosDataSourceBean.setMaxPoolSize(100);
+        atomikosDataSourceBean.setBorrowConnectionTimeout(30);
+        atomikosDataSourceBean.setTestQuery("select 1");
+        atomikosDataSourceBean.setMaintenanceInterval(60);
+        return atomikosDataSourceBean;
     }
 
     @Bean(name="secondarySqlSessionFactory")
