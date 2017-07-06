@@ -1,6 +1,5 @@
 package com.kyh.rabbitmq.spring_rabbit;
 
-import augtek.rabbitmq.config.ServerConfig;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -27,26 +26,26 @@ public class RabbitMQConfiguration {
     public final static String ROUTING_KEY="T1";
 
     // RabbitMQ的配置信息
-    @Value("${mq.rabbit.host}")
-    private String mRabbitHost;
-    @Value("${mq.rabbit.port}")
-    private Integer mRabbitPort;
-    @Value("${mq.rabbit.username}")
-    private String mRabbitUsername;
-    @Value("${mq.rabbit.password}")
-    private String mRabbitPassword;
-    @Value("${mq.rabbit.virtualHost}")
-    private String mRabbitVirtualHost;
+    @Value("${spring.rabbitmq.host}")
+    private String host;
+    @Value("${spring.rabbitmq.port}")
+    private Integer port;
+    @Value("${spring.rabbitmq.username}")
+    private String username;
+    @Value("${spring.rabbitmq.password}")
+    private String password;
+    @Value("${spring.rabbitmq.virtualHost}")
+    private String virtualHost;
 
     // 建立一个连接容器，类似数据库的连接池。
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
-        connectionFactory.setHost(mRabbitHost);
-        connectionFactory.setPort(mRabbitPort);
-        connectionFactory.setUsername(mRabbitUsername);
-        connectionFactory.setPassword(mRabbitPassword);
-        connectionFactory.setVirtualHost(mRabbitVirtualHost);
+        connectionFactory.setHost(host);
+        connectionFactory.setPort(port);
+        connectionFactory.setUsername(username);
+        connectionFactory.setPassword(password);
+        connectionFactory.setVirtualHost(virtualHost);
         connectionFactory.setPublisherConfirms(true); //必须要设置
         return connectionFactory;
     }
@@ -97,8 +96,8 @@ public class RabbitMQConfiguration {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         // 定义消费者自己的connectionFactory (我们不希望使用配置文件设置的那个登录信息)
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        factory.setHost(mRabbitHost);
-        factory.setPort(mRabbitPort);
+        factory.setHost(host);
+        factory.setPort(port);
         factory.setUsername("campany1"); // 消费者campany2被拒绝访问augtek_Q_1，会进入死循环！？？？无限重启
         factory.setPassword("123");
         container.setConnectionFactory(factory);
