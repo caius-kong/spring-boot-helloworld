@@ -21,7 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  *    SpringApplication.run(Application.class, args) ==> 启动服务
  */
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={"com.kyh", "augtek.rabbitmq"})
 //@MapperScan("com.kyh.dao") // 扫描Mapper类的package (注1：Mapper不需要@Repository，注2：需要在application.properties中指定mapper.xml目录)
 @EnableScheduling // 开启定时任务
 @EnableAsync // 开启异步调用
