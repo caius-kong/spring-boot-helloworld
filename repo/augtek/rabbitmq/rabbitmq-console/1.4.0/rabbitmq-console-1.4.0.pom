@@ -4,5 +4,5 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>augtek.rabbitmq</groupId>
   <artifactId>rabbitmq-console</artifactId>
-  <version>1.4.0-SHAPSHOT</version>
+  <version>1.4.0</version>
 </project>
