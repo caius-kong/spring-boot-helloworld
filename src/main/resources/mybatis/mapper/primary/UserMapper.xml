@@ -107,7 +107,7 @@
     select * from user where username=#{username}
   </select>
   
-  <select id="query" parameterType="User" resultMap="BaseResultMap">
+  <select id="query" parameterType="com.kyh.model.primary.User" resultMap="BaseResultMap">
     select * from user
     <where>
         <if test="id!=null">
