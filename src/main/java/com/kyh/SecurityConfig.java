@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/APIs/login")
 //                .usernameParameter("email")
-                .defaultSuccessUrl("/APIs/index.html", true)
+                .defaultSuccessUrl("/APIs/index", true)
                 .permitAll()
                 .and()
                 .logout()

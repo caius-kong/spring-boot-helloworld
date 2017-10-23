@@ -34,6 +34,11 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * thymeleaf 默认属性
+     * spring.thymeleaf.prefix = classpath:/templates/
+     * spring.thymeleaf.suffix = .html
+     */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String helloPage(Model model, Authentication authentication) {
         CurrentUser currentUser = (CurrentUser) authentication.getPrincipal();
