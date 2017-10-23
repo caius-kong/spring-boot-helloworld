@@ -23,7 +23,9 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public List<String> getRoles(Long userId) {
         User user = userMapper.selectByPrimaryKey(userId);
-        if(user==null) new MyException("用戶不存在");
+        if(user==null) {
+            new MyException("用戶不存在");
+        }
         return roleMapper.getRoles(user.getRoleIds());
     }
 }

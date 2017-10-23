@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Component
 public class ScheduledTasks {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {

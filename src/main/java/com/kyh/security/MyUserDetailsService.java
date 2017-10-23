@@ -35,9 +35,9 @@ public class MyUserDetailsService implements UserDetailsService {
         }
 
         User user = userService.findByUsername(username);
-        if (user == null)
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("User with username=%s was not found", username));
-
+        }
         if (user.getLocked() == 1) {
             throw new LockedException(String.format("User with username=%s was locked", username));
         }

@@ -30,6 +30,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
         channel.basicQos(1);
     }
 
+    @Override
     public void run() {
         try {
             //start consuming messages. Don't auto acknowledge messages.
@@ -44,6 +45,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
     /**
      * Called when consumer is registered.
      */
+    @Override
     public void handleConsumeOk(String consumerTag) {
         System.out.println("Consumer " + consumerTag + " registered");
     }
@@ -51,6 +53,7 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
     /**
      * Called when new message is available.
      */
+    @Override
     public void handleDelivery(String consumerTag, Envelope env,
                                BasicProperties props, byte[] body) throws IOException {
         Map map = (HashMap) SerializationUtils.deserialize(body);
@@ -66,8 +69,12 @@ public class QueueConsumer extends EndPoint implements Runnable, Consumer {
         }
     }
 
+    @Override
     public void handleCancel(String consumerTag) {}
+    @Override
     public void handleCancelOk(String consumerTag) {}
+    @Override
     public void handleRecoverOk(String consumerTag) {}
+    @Override
     public void handleShutdownSignal(String consumerTag, ShutdownSignalException arg1) {}
 }

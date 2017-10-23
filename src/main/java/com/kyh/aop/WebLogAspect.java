@@ -47,5 +47,6 @@ public class WebLogAspect {
         logger.info("RESPONSE : " + ret);
         // 打印请求时长
         logger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
+        startTime.remove();
     }
 }

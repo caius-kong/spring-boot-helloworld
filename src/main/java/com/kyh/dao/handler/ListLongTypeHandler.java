@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @MappedTypes(List.class)
 @MappedJdbcTypes({JdbcType.VARCHAR})
 public class ListLongTypeHandler extends BaseTypeHandler<List<Long>> {
+    @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, List<Long> longs, JdbcType jdbcType) throws SQLException {
         //1.List集合转字符串
         StringBuffer sb = new StringBuffer();
@@ -25,21 +26,26 @@ public class ListLongTypeHandler extends BaseTypeHandler<List<Long>> {
         preparedStatement.setString(i, sb.toString().substring(0, sb.toString().length() - 1));
     }
 
+    @Override
     public List<Long> getNullableResult(ResultSet resultSet, String s) throws SQLException {
         return convert(resultSet.getString(s));
     }
 
+    @Override
     public List<Long> getNullableResult(ResultSet resultSet, int i) throws SQLException {
         return convert(resultSet.getString(i));
     }
 
+    @Override
     public List<Long> getNullableResult(CallableStatement callableStatement, int i) throws SQLException {
         return convert(callableStatement.getString(i));
     }
 
     private List<Long> convert(String str){
         // 空值处理,防止空值调用异常
-        if(str==null) return null;
+        if(str==null){
+            return null;
+        }
         String[] split = str.split(",");
         return Arrays.asList(split)
                 .stream()

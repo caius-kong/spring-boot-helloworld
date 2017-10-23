@@ -1,14 +1,20 @@
 package com.kyh.rabbitmq.demo;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Main {
     public Main() throws Exception {
         // 消费者线程，接收消息
-        ExecutorService executors = Executors.newFixedThreadPool(3);
-        for(int i=0; i<3; i++){
+        ThreadPoolExecutor executors = new ThreadPoolExecutor(5, 200, 0L, TimeUnit.MICROSECONDS,
+                new LinkedBlockingQueue<>(1024),
+                new ThreadFactoryBuilder().setNameFormat("demo-pool-%d").build(),
+                new ThreadPoolExecutor.AbortPolicy());
+        /// 阿里java规范建议：手动创建线程池，Executors 自带的静态方法容易引起线程最大个数不可控
+        // ExecutorService executors = Executors.newFixedThreadPool(3);
+        for(int i=0; i< 3; i++){
             // *（星）替代一个单词。
             // ＃（哈希）替换零个或多个单词。
             String bindingKey="";
@@ -22,6 +28,8 @@ public class Main {
                 case 2:
                     bindingKey = "#";
                     break;
+                default:
+                    ;
             }
             QueueConsumer consumer = new QueueConsumer("topic_logs", bindingKey);
             executors.submit(consumer);
@@ -37,6 +45,8 @@ public class Main {
                 case 1:
                     producer.setBindingKey("A critical kernel error"); // 这条消息，被C3接收
                     break;
+                default:
+                    ;
             }
             HashMap message = new HashMap();
             message.put("message number", i);
