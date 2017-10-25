@@ -35,12 +35,7 @@ public class UserController {
             @RequestParam(value = "pageSize", required = false, defaultValue="10") Integer pageSize) {
         PageInfo<User> result = null;
         try {
-            /**
-             * 紧跟着的 "第一个" 查询方法会被分页 (返回Page<E> extends ArrayList)
-             *
-             * 如果list()没有消费掉 分页参数 ，本地线程会一直持有该 分页参数，直到下一个查询消费它。(出现你不想分页的查询被分页)
-             * 因此，PageHelper和list()必须紧跟才能保证安全性！
-             */
+            // 分页参数。接下来的第一个"查询方法"会自动消费它，为了防止出现你不想分页的查询被分页，PageHelper和list()必须紧跟才能保证安全性！
             PageHelper.startPage(pageNum, pageSize);
             List<User> list = userService.list(user);
             result = new PageInfo<User>(list);
