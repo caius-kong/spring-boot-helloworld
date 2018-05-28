@@ -17,12 +17,16 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import java.lang.reflect.Method;
 
 /**
- * 参考文档：http://wiselyman.iteye.com/blog/2184884
+ * @author kongyunhui on 2018/4/26.
+ *
+ * 使用spring注解的方式完成redis缓存
  *
  * 1、添加包依赖
  * 2、application.properties 之 redis配置
  * 3、@EnableCaching 开启缓存
  * 4、@Cacheable/@CachePut/@CacheEvict 操作缓存（查、增、删）
+ *
+ * 参考文档：http://wiselyman.iteye.com/blog/2184884
  */
 @Configuration
 @EnableCaching
@@ -45,6 +49,15 @@ public class RedisConfig extends CachingConfigurerSupport {
         };
     }
 
+    /**
+     * 缓存管理器。此处设置了固定的expire。
+     *
+     * spring目前在@Cacheable等注解上不支持缓存时效设置，如有必要可以重写该注解。
+     * 另外，还有两种方式可以修改TTL：1、@Cacheable(cacheManager="cacheManager2"); 2、redisTemplate.expire()
+     *
+     * @param redisTemplate
+     * @return
+     */
     @Bean
     public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
         RedisCacheManager redisCacheManager = new RedisCacheManager(redisTemplate);
@@ -53,8 +66,18 @@ public class RedisConfig extends CachingConfigurerSupport {
         return redisCacheManager;
     }
 
-    // 注：此处虽然是StringRedisTemplate<String, String>，但是value部分设置了jackson2JsonRedisSerializer
-    // 因此，redis存储string:object可行！
+    /**
+     * 自定义StringRedisTemplate，并使用jackson2JsonRedisSerializer处理value部分。
+     *
+     * 注1：为什么选用StringRedisTemplate？
+     * 因为：RedsTemplate默认使用的是JdkSerializationRedisSerializer，存入数据时会转化成字节数组存入，可读性不好。
+     *
+     * 注2：为什么修改了value、hashValue的序列化类
+     * 因为：默认的StringRedisTemplate仅支持字符串的序列化，由于我们需要存取复杂对象，因此必须修改序列化类。
+     *
+     * @param factory
+     * @return
+     */
     @Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         StringRedisTemplate template = new StringRedisTemplate(factory);
@@ -63,7 +86,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jackson2JsonRedisSerializer.setObjectMapper(om);
-        template.setValueSerializer(jackson2JsonRedisSerializer); // 为了满足(string, object)的映射方式，object->jsonString
+        template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setHashValueSerializer(jackson2JsonRedisSerializer);
         template.afterPropertiesSet();
         return template;
     }
