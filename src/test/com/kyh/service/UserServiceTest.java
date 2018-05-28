@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=Application.class)
-//@Transactional // 默认回滚事务
+@Transactional
 public class UserServiceTest {
     @Autowired
     private UserService userService;
@@ -37,13 +38,13 @@ public class UserServiceTest {
     @Test
     public void add() throws Exception{
         User user = new User();
-        user.setId(3l);
+        user.setId(4l);
         user.setUsername("zbzy");
         user.setPassword("123abc!");
         user.setUserType(UserType.ADMIN);
         user.setRoleIds(Lists.newArrayList(1l,2l));
         userService.createUser(user);
-        Assert.assertEquals(true, user.getId()==3l);
+        Assert.assertEquals(true, user.getId()==4l);
     }
 
     @Test

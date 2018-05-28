@@ -16,7 +16,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=Application.class)
-@Transactional // 默认回滚事务
+@Transactional
 public class RoleServiceTest {
     @Autowired
     private RoleService roleService;
