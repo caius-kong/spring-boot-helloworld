@@ -13,12 +13,16 @@ import java.util.concurrent.Future;
  * 注2：需要手动调用，调用的各个方法是并发执行的。
  * 注3：由于返回Future，因此可以任务回调，判断是否完成。
  * 注4：必须交给spring管理，否则不生效
+ *
+ * 后记：为了保障应用健康，需要控制这些异步执行。例如控制并发线程数等 --> 自定义线程池
+ * 1、启动类中创建线程池实例，@Bean("taskExecutor")
+ * 2、在@Async注解中指定线程池名
  */
 @Component
 public class AsyncTask {
     public static Random random = new Random();
 
-    @Async
+    @Async("taskExecutor")
     public Future<String> doTaskOne() throws Exception {
         System.out.println("开始做任务一");
         long start = System.currentTimeMillis();
@@ -28,7 +32,7 @@ public class AsyncTask {
         return new AsyncResult("任务一完成");
     }
 
-    @Async
+    @Async("taskExecutor")
     public Future<String> doTaskTwo() throws Exception {
         System.out.println("开始做任务二");
         long start = System.currentTimeMillis();
@@ -38,7 +42,7 @@ public class AsyncTask {
         return new AsyncResult("任务二完成");
     }
 
-    @Async
+    @Async("taskExecutor")
     public Future<String> doTaskThree() throws Exception {
         System.out.println("开始做任务三");
         long start = System.currentTimeMillis();

@@ -35,6 +35,8 @@ public class AsyncTaskTest {
             Thread.sleep(1000);
         }
         long end = System.currentTimeMillis();
+
+//        Thread.currentThread().join(); // 让父线程等待子线程结束之后才能继续运行
         System.out.println("任务全部完成，总耗时：" + (end - start) + "毫秒");
 
     }
