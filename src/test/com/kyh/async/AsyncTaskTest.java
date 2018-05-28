@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by kongyunhui on 2017/5/10.
@@ -27,17 +28,19 @@ public class AsyncTaskTest {
         Future<String> task1 = asyncTask.doTaskOne();
         Future<String> task2 = asyncTask.doTaskTwo();
         Future<String> task3 = asyncTask.doTaskThree();
-        while(true) {
-            if(task1.isDone() && task2.isDone() && task3.isDone()) {
-                // 三个任务都调用完成，退出循环等待
-                break;
-            }
-            Thread.sleep(1000);
-        }
+//        while(true) {
+//            if(task1.isDone() && task2.isDone() && task3.isDone()) {
+//                // 三个任务都调用完成，退出循环等待
+//                break;
+//            }
+//            Thread.sleep(1000);
+//        }
+
+        // 堵塞执行，超过10秒抛出异常
+        task1.get(10, TimeUnit.SECONDS);
+        task2.get(10, TimeUnit.SECONDS);
+        task3.get(10, TimeUnit.SECONDS);
         long end = System.currentTimeMillis();
-
-//        Thread.currentThread().join(); // 让父线程等待子线程结束之后才能继续运行
         System.out.println("任务全部完成，总耗时：" + (end - start) + "毫秒");
-
     }
 }
