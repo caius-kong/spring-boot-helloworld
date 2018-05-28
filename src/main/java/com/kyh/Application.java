@@ -43,12 +43,14 @@ public class Application {
     @Bean("taskExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(10);
-        executor.setMaxPoolSize(20);
-        executor.setQueueCapacity(200);
-        executor.setKeepAliveSeconds(60);
-        executor.setThreadNamePrefix("taskExecutor-");
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setCorePoolSize(10); // 核心线程数
+        executor.setMaxPoolSize(20); // 最大线程数
+        executor.setQueueCapacity(200); // 缓冲队列
+        executor.setKeepAliveSeconds(60); // 超过核心线程数的线程空闲事件超过60s就关闭
+        executor.setThreadNamePrefix("taskExecutor-"); // 线程名前缀
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy()); // 线程池对拒绝任务的处理策略。默认AbortPolicy - 拒绝就抛出异常；CallerRunsPolicy - 调用者的线程会执行该任务,如果执行器已关闭,则丢弃
+        executor.setWaitForTasksToCompleteOnShutdown(true); // 线程池/应用优雅关闭。即避免应用关闭了，异步任务还在执行导致的某些bean数据依赖异常。true：线程池关闭的时候等待所有任务都完成再继续销毁其他的Bean。
+        executor.setAwaitTerminationSeconds(60); // 仅优雅等待60s，防止应用无法关闭。
         return executor;
     }
 
