@@ -12,12 +12,14 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StringUtils;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -60,14 +62,27 @@ public class EsTest {
                         new HttpHost("localhost", 9200, "http")
                 ));
 
+        String first_name = "Jane";
+        String last_name = "Smith";
+        Integer age = 30;
+
         // 查询
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.indices("megacorp");
+
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if(!StringUtils.isEmpty(first_name)){
+            boolQueryBuilder.must(QueryBuilders.matchQuery("first_name", "Jane"));
+        }
+        if(!StringUtils.isEmpty(last_name)){
+            boolQueryBuilder.must(QueryBuilders.matchQuery("last_name", "Smith"));
+        }
+        if(age != null){
+            boolQueryBuilder.filter(QueryBuilders.rangeQuery("age").gte(30));
+        }
+
         searchRequest.source(new SearchSourceBuilder()
-                .query(QueryBuilders.boolQuery()
-                        .must(QueryBuilders.matchQuery("first_name", "Jane"))
-                        .must(QueryBuilders.matchQuery("last_name", "Smith"))
-                        .filter(QueryBuilders.rangeQuery("age").gte(30)))
+                .query(boolQueryBuilder)
                 .from(0)
                 .size(1)
                 .timeout(new TimeValue(60, TimeUnit.SECONDS))
